@@ -16,6 +16,7 @@ import {
 } from '@mantine/core';
 import { GoogleButton } from './GoogleButton';
 import { TwitterButton } from './TwitterButton';
+import { enqueueSnackbar } from 'notistack';
 
  const signUp = (props) => {
   const [type, toggle] = useToggle(['register']);
@@ -23,7 +24,8 @@ import { TwitterButton } from './TwitterButton';
     initialValues: {
       email: '',
       name: '',
-      password: ''
+      password: '',
+      cpassword:""
     },
 
     validate: {
@@ -31,6 +33,28 @@ import { TwitterButton } from './TwitterButton';
       password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
     },
   });
+
+  const signupSubmit = (values) => {
+    console.log(values);
+    fetch("http://localhost:5000/user/add", {
+      method:"POST",
+      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => {
+      console.log(response.status);
+      if (response.status === 200) {
+        enqueueSnackbar('Usee Registerd Successfully', { variant: 'success' });
+      } else {
+        enqueueSnackbar('Something went wrong', {variant: 'error' });
+      }
+    }).catch((err) => {
+      console.log(err);
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
+    });
+  }
 
   return (
     <Paper radius="md" p="xl" withBorder {...props}>
@@ -45,14 +69,17 @@ import { TwitterButton } from './TwitterButton';
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form onSubmit={form.onSubmit(signupSubmit)}>
         <Stack>
+
           {type === 'register' && (
             <TextInput
               label="Name"
               placeholder="Your name"
+              id="name"
               value={form.values.name}
               onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+              error={form.errors.name && "Invalide name"}
               radius="md"
             />
           )}
@@ -61,6 +88,7 @@ import { TwitterButton } from './TwitterButton';
             required
             label="Email"
             placeholder="hello@email.com"
+            id="email"
             value={form.values.email}
             onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
             error={form.errors.email && 'Invalid email'}
@@ -71,9 +99,21 @@ import { TwitterButton } from './TwitterButton';
             required
             label="Password"
             placeholder="Your password"
+            id='password'
             value={form.values.password}
             onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
             error={form.errors.password && 'Password should include at least 6 characters'}
+            radius="md"
+          />
+          
+          <PasswordInput
+            required
+            label="Confirm Password"
+            placeholder="Confirm password"
+            id="cpassword"
+            value={form.values.cPassword}
+            onChange={(event) => form.setFieldValue('cpassword', event.currentTarget.value)}
+            error={form.errors.cpassword && 'Password should include at least 6 characters'}
             radius="md"
           />
 
