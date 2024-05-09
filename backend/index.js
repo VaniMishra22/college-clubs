@@ -20,6 +20,7 @@ app.use('/club', clubRouter);
 app.get('/', (req, res) => {
     res.send('respose from express')
 });
+
 app.get('/add', (req, res) => {
     res.send('response from add -----')
 })
