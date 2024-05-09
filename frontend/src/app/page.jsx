@@ -1,46 +1,23 @@
-import { Container, Text, Button, Group } from '@mantine/core';
-// import { GithubIcon } from '@mantinex/dev-icons';
+import { Overlay, Container, Title, Button, Text } from '@mantine/core';
 import classes from './page.module.css';
-import { Icon3dRotate } from '@tabler/icons-react';
-
-export default function Home() {
+export function HeroContentLeft() {
   return (
-    <div className={classes.wrapper}>
-      <Container size={'xl'} className={classes.inner}>
-        <h1 className={classes.title}>
-          A{' '}
-          <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
-            fully featured
-          </Text>{' '}
-          React components and hooks library
-        </h1>
-
-        <Text className={classes.description} color="dimmed">
-          Build fully functional accessible web applications with ease – Mantine includes more than
-          100 customizable components and hooks to cover you in any situation
+    <div className={classes.hero}>
+      <Overlay
+        gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .65) 40%)"
+        opacity={1}
+        zIndex={0}
+      />
+      <Container className={classes.container} size="md">
+        <Title className={classes.title}>A fully featured React components library</Title>
+        <Text className={classes.description} size="xl" mt="xl">
+          Build fully functional accessible web applications faster than ever – Mantine includes
+          more than 120 customizable components and hooks to cover you in any situation
         </Text>
 
-        <Group className={classes.controls}>
-          <Button
-            size="xl"
-            className={classes.control}
-            variant="gradient"
-            gradient={{ from: 'blue', to: 'cyan' }}
-          >
-            Get started
-          </Button>
-
-          <Button
-            component="a"
-            href="https://github.com/mantinedev/mantine"
-            size="xl"
-            variant="default"
-            className={classes.control}
-            leftSection={<Icon3dRotate size={20} />}
-          >
-            GitHub
-          </Button>
-        </Group>
+        <Button variant="gradient" size="xl" radius="xl" className={classes.control}>
+          Get started
+        </Button>
       </Container>
     </div>
   );
