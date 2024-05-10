@@ -14,10 +14,14 @@ const Home = () => {
         zIndex={0}
       />
       <Container className={classes.container} size="md">
-        <Title className={classes.title}>A fully featured React components library</Title>
+        <Title className={classes.title}>Clubs In College: Different Types And Benefits</Title>
         <Text className={classes.description} size="xl" mt="xl">
-          Build fully functional accessible web applications faster than ever – Mantine includes
-          more than 120 customizable components and hooks to cover you in any situation
+        Looking to join a club in college? 
+        Read on to learn about the different types and benefits of clubs in college.
+
+        Want to amplify your college experience? Consider joining a student club!
+
+        Joining different clubs in college can be the most rewarding experience in your undergraduate journey.It allows you to meet like-minded people, pursue various interests, build long-lasting connections with mentors and peers, and develop a strong skill set that can help you in your post-college career.
         </Text>
 
         <Button variant="gradient" size="xl" radius="xl" className={classes.control}>
