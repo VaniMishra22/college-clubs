@@ -23,7 +23,8 @@ app.get('/', (req, res) => {
 
 app.get('/add', (req, res) => {
     res.send('response from add -----')
-})
+});
+
 
 //endpoint
 app.listen(port, () => { console.log('server started'); })
