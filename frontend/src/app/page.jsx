@@ -1,7 +1,8 @@
 'use client';
 import { Overlay, Container, Title, Button, Text } from '@mantine/core';
 import classes from './page.module.css';
-export function HeroContentLeft() {
+
+const HeroContentLeft = () => {
   return (
     <div className={classes.hero}>
       <Overlay
@@ -23,3 +24,5 @@ export function HeroContentLeft() {
     </div>
   );
 }
+
+export default HeroContentLeft;

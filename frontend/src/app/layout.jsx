@@ -17,7 +17,6 @@ const theme = createTheme({
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      
       <body className={inter.className}>
         <MantineProvider theme={theme} defaultColorScheme="dark">
           {children}
