@@ -10,6 +10,8 @@ import {
   Container,
   Group,
   Button,
+  BackgroundImage,
+  Box,
 } from '@mantine/core';
 import classes from './AuthenticationTitle.module.css';
 import { enqueueSnackbar } from 'notistack';
@@ -59,6 +61,7 @@ const login = (props) => {
   }
 // export function AuthenticationTitle() {
   return (
+    <Box style={{BackgroundImage: `url("https://png.pngtree.com/thumb_back/fh260/back_our/20190620/ourmid/pngtree-colorful-beautiful-tennis-club-recruits-new-image_168691.jpg")`}}>
     <Container size={420} my={40}>
       <Title ta="center" className={classes.title}>
         Welcome back to College Clubs!
@@ -95,6 +98,7 @@ const login = (props) => {
         </form>
       </Paper>
     </Container>
+    </Box>
   );
 }
 export default login;
