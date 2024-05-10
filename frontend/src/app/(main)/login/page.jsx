@@ -47,8 +47,8 @@ const login = (props) => {
     .then((response) => {
       console.log(response.status);
       if (response.status === 200) {
-        enqueueSnackbar('Usee Logged Successfully', { variant: 'success' });
-        router.push("/signUp")
+        enqueueSnackbar('User Logged Successfully', { variant: 'success' });
+        router.push("/")
       } else {
         enqueueSnackbar('Something went wrong', {variant: 'error' });
       }

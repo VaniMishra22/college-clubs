@@ -14,8 +14,7 @@ import {
   Anchor,
   Stack,
 } from '@mantine/core';
-import { GoogleButton } from './GoogleButton';
-import { TwitterButton } from './TwitterButton';
+
 import { enqueueSnackbar } from 'notistack';
 
  const signUp = (props) => {
@@ -25,7 +24,7 @@ import { enqueueSnackbar } from 'notistack';
       email: '',
       name: '',
       password: '',
-      cpassword:""
+      cpassword: ''
     },
 
     validate: {
@@ -46,7 +45,7 @@ import { enqueueSnackbar } from 'notistack';
     .then((response) => {
       console.log(response.status);
       if (response.status === 200) {
-        enqueueSnackbar('Usee Registerd Successfully', { variant: 'success' });
+        enqueueSnackbar('User Registerd Successfully', { variant: 'success' });
       } else {
         enqueueSnackbar('Something went wrong', {variant: 'error' });
       }
@@ -61,14 +60,7 @@ import { enqueueSnackbar } from 'notistack';
       <Text size="lg" fw={500}>
         Welcome to College Clubs, {type} with
       </Text>
-
-      <Group grow mb="md" mt="md">
-        <GoogleButton radius="xl">Google</GoogleButton>
-        <TwitterButton radius="xl">Twitter</TwitterButton>
-      </Group>
-
-      <Divider label="Or continue with email" labelPosition="center" my="lg" />
-
+      
       <form onSubmit={form.onSubmit(signupSubmit)}>
         <Stack>
 
