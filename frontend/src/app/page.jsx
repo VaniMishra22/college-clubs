@@ -1,3 +1,4 @@
+'use client';
 import { Overlay, Container, Title, Button, Text } from '@mantine/core';
 import classes from './page.module.css';
 export function HeroContentLeft() {

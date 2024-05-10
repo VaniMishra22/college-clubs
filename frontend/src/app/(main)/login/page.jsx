@@ -12,8 +12,51 @@ import {
   Button,
 } from '@mantine/core';
 import classes from './AuthenticationTitle.module.css';
+import { enqueueSnackbar } from 'notistack';
+import { useForm } from '@mantine/form';
+import { useRouter } from 'next/navigation';
+
 
 const login = (props) => {
+
+  const router = useRouter();
+
+  const form = useForm({
+    initialValues: {
+      email: '',
+      
+      password: ''
+      
+    },
+
+    validate: {
+      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
+      password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
+    },
+  });
+
+  const loginSubmit = (values) => {
+    console.log(values);
+    fetch("http://localhost:5000/user/authenticate", {
+      method:"POST",
+      body: JSON.stringify(values),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => {
+      console.log(response.status);
+      if (response.status === 200) {
+        enqueueSnackbar('Usee Logged Successfully', { variant: 'success' });
+        router.push("/signUp")
+      } else {
+        enqueueSnackbar('Something went wrong', {variant: 'error' });
+      }
+    }).catch((err) => {
+      console.log(err);
+      enqueueSnackbar('Something went wrong', { variant: 'error' });
+    });
+  }
 // export function AuthenticationTitle() {
   return (
     <Container size={420} my={40}>
@@ -28,17 +71,28 @@ const login = (props) => {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="name@gmail.com" required />
-        <PasswordInput label="Password" placeholder="Your password" required mt="md" />
+        <form action="" onSubmit={form.onSubmit(loginSubmit)}>
+        <TextInput label="Email" placeholder="name@gmail.com" required
+        
+        value={form.values.email}
+        onChange={(event) => form.setFieldValue("email", event.currentTarget.value)}
+        error={form.errors.email && "Invalid email"}
+        />
+        <PasswordInput label="Password" placeholder="Your password" required mt="md"
+        value={form.values.password}
+        onChange={(event) => form.setFieldValue("password", event.currentTarget.value)}
+        error={form.errors.password && "Invalid Password"}
+        />
         <Group justify="space-between" mt="lg">
           <Checkbox label="Remember me" />
           <a href='/resetPassword'><Anchor component="button" size="sm">
             Forgot password?
           </Anchor></a>
         </Group>
-        <Button fullWidth mt="xl">
+        <Button type='submit' fullWidth mt="xl">
           Sign in
         </Button>
+        </form>
       </Paper>
     </Container>
   );
