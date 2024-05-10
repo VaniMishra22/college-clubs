@@ -1,9 +1,12 @@
 'use client';
 import { Overlay, Container, Title, Button, Text } from '@mantine/core';
 import classes from './page.module.css';
+import Navbar from './(main)/navbar';
 
-const HeroContentLeft = () => {
+const Home = () => {
   return (
+    <>
+    <Navbar/> 
     <div className={classes.hero}>
       <Overlay
         gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .65) 40%)"
@@ -22,7 +25,8 @@ const HeroContentLeft = () => {
         </Button>
       </Container>
     </div>
+    </>
   );
 }
 
-export default HeroContentLeft;
+export default Home;
