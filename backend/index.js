@@ -1,7 +1,7 @@
 const express = require('express')
 const userRouter = require('./routers/userRouter');
 const clubRouter = require('./routers/clubRouter');
-//const brandRouter = require('./routers/campaignRouter');
+const utilRouter = require('./routers/utils');
 
 const cors = require('cors');
 
@@ -16,15 +16,13 @@ app.use(express.json());
 
 app.use('/user', userRouter);
 app.use('/club', clubRouter);
+app.use('/util', utilRouter);
+
+app.use(express.static('./static/uploads'));
 
 app.get('/', (req, res) => {
     res.send('respose from express')
 });
-
-app.get('/add', (req, res) => {
-    res.send('response from add -----')
-});
-
 
 //endpoint
 app.listen(port, () => { console.log('server started'); })

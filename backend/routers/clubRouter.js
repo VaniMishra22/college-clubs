@@ -27,6 +27,17 @@ router.get('/getall', (req, res) => {
         });
 });
 
+router.post('/join', (req, res) => {
+    Model.findByIdAndUpdate
+        (req.body.clubId, { $push: { members: req.body.userId } })
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
 //getbyid
 router.get('/getbyid', (req, res) => {
     res.send('Response from user getbyid');

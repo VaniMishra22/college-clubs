@@ -26,9 +26,7 @@ const login = (props) => {
   const form = useForm({
     initialValues: {
       email: '',
-      
       password: ''
-      
     },
 
     validate: {
@@ -50,6 +48,10 @@ const login = (props) => {
       console.log(response.status);
       if (response.status === 200) {
         enqueueSnackbar('User Logged Successfully', { variant: 'success' });
+        response.json().then((data) => {
+          console.log(data);
+          localStorage.setItem('user', JSON.stringify(data));
+        });
         router.push("/")
       } else {
         enqueueSnackbar('Something went wrong', {variant: 'error' });

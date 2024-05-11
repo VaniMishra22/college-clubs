@@ -1,4 +1,5 @@
 'use client';
+import { ClubProvider } from '@/context/ClubContext';
 import { SnackbarProvider } from 'notistack'
 import React from 'react'
 
@@ -9,7 +10,9 @@ const Template = ({ children }) => {
         horizontal: 'right',
         vertical: 'top'
       }}>
-        {children}
+        <ClubProvider>
+          {children}
+        </ClubProvider>
       </SnackbarProvider>
     </div>
   )

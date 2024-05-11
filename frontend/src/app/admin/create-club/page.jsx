@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { useForm } from '@mantine/form';
-import { Button, Group, Paper, Stack, Text, TextInput, Textarea } from '@mantine/core';
+import { Button, FileInput, Group, Paper, Stack, Text, TextInput, Textarea } from '@mantine/core';
 
 const CreateClub = () => {
 
@@ -9,7 +9,10 @@ const CreateClub = () => {
     initialValues: {
       name: '',
       description: '',
-      moderator: '663cf4dcbab8f602ef53a1f9'
+      moderator: '663cf4dcbab8f602ef53a1f9',
+      type: '',
+      cover: '',
+      icon: ''
     },
 
     // validate: {
@@ -33,6 +36,21 @@ const CreateClub = () => {
       });
   }
 
+  const uploadFile = (file, fieldName) => {
+    const fd = new FormData();
+    fd.append('myfile', file);
+
+    fetch("http://localhost:5000/util/uploadfile", {
+      method: "POST",
+      body: fd,
+    }).then((res) => {
+      if (res.status === 200) {
+        console.log("file uploaded");
+        clubForm.setFieldValue(fieldName, file.name);
+      }
+    });
+  };
+
   return (
     <Paper radius="md" p="xl" withBorder >
       <Text size="lg" fw={500}>
@@ -49,6 +67,27 @@ const CreateClub = () => {
             {...clubForm.getInputProps('name')}
             radius="md"
           />
+
+          <TextInput
+            required
+            label="Ckub Type"
+            placeholder="Enter Club Type"
+            {...clubForm.getInputProps('type')}
+            radius="md"
+          />
+
+          <FileInput
+            label="Upload Club Cover Image"
+            placeholder="Upload Club Cover Image"
+            onChange={(file) => uploadFile(file, 'cover')}
+          />
+
+          <FileInput
+            label="Upload Club Icon"
+            placeholder="Upload Club Icon"
+            onChange={(file) => uploadFile(file, 'icon')}
+          />
+
           <Textarea
             required
             label="Club Description"
