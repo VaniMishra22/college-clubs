@@ -38,7 +38,7 @@ export function FaqWithBg() {
           </Accordion.Item>
 
           <Accordion.Item className={classes.item} value="newsletter">
-            <Accordion.Control>How can I subscribe to monthly newsletter?</Accordion.Control>
+            <Accordion.Control>How can I join more than one club?</Accordion.Control>
             <Accordion.Panel>{placeholder}</Accordion.Panel>
           </Accordion.Item>
 

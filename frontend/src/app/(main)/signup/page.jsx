@@ -58,7 +58,7 @@ const signUp = (props) => {
   }
 
   return (
-    <Box style={{backgroundImage: `url("https://i.pinimg.com/originals/af/ef/26/afef26d06ddd2f5aec50e00e42e1215c.jpg")`}}>
+    <Box style={{backgroundImage: `url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIRQf8ZwqkHd5GFj6LnWBn01mGPcjYT4mJ8SoSXafzlw&s")`}}>
       <Container size="xs">
         <Paper radius="md" p="xl" withBorder {...props}>
           <Text size="lg" fw={500}>
