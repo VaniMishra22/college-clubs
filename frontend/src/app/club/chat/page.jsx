@@ -1,3 +1,4 @@
+'use client';
 import { ActionIcon, Avatar, Box, Flex, Group, Paper, Text, TextInput, Tooltip, rem } from '@mantine/core';
 import { IconArrowRight, IconSearch } from '@tabler/icons-react';
 import React, { useEffect, useMemo, useRef, useState } from 'react'
