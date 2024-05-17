@@ -19,6 +19,7 @@ app.use(express.json());
 
 app.use('/user', userRouter);
 app.use('/club', clubRouter);
+
 app.use('/util', utilRouter);
 
 app.use(express.static('./static/uploads'));
