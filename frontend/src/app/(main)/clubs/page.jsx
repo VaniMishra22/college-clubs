@@ -32,10 +32,12 @@ const Clubs = () => {
   }, [])
 
   const clubJoined = (club) => {
+    if(!currentUser) return false;
     return club.members.find((member) => member === currentUser._id)
   }
 
   const joinClub = (clubId) => {
+    if(!currentUser) return enqueueSnackbar('Please login to join the club', { variant: 'error' });
     fetch('http://localhost:5000/club/join', {
       method: 'POST',
       headers: {

@@ -17,11 +17,14 @@ import classes from './AuthenticationTitle.module.css';
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from '@mantine/form';
 import { useRouter } from 'next/navigation';
+import useAppContext from '@/context/AppContext';
 
 
 const login = (props) => {
 
   const router = useRouter();
+
+  const { setCurrentUser, setLoggedIn } = useAppContext();
 
   const form = useForm({
     initialValues: {
@@ -50,6 +53,8 @@ const login = (props) => {
         enqueueSnackbar('User Logged Successfully', { variant: 'success' });
         response.json().then((data) => {
           console.log(data);
+          setLoggedIn(true);
+          setCurrentUser(data);
           localStorage.setItem('user', JSON.stringify(data));
         });
         router.push("/")

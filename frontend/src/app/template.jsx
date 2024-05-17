@@ -4,6 +4,7 @@ import { SnackbarProvider } from 'notistack'
 import React, { useEffect } from 'react'
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en'
+import { AppProvider } from '@/context/AppContext';
 
 const Template = ({ children }) => {
 
@@ -18,9 +19,11 @@ const Template = ({ children }) => {
         horizontal: 'right',
         vertical: 'top'
       }}>
-        <ClubProvider>
-          {children}
-        </ClubProvider>
+        <AppProvider>
+          <ClubProvider>
+            {children}
+          </ClubProvider>
+        </AppProvider>
       </SnackbarProvider>
     </div>
   )
