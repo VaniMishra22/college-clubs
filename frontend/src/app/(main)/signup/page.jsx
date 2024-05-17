@@ -58,7 +58,7 @@ const signUp = (props) => {
   }
 
   return (
-    <Box style={{backgroundImage: `url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIRQf8ZwqkHd5GFj6LnWBn01mGPcjYT4mJ8SoSXafzlw&s")`}}>
+    <Box>
       <Container size="xs">
         <Paper radius="md" p="xl" withBorder {...props}>
           <Text size="lg" fw={500}>
@@ -83,7 +83,7 @@ const signUp = (props) => {
               <TextInput
                 required
                 label="Email"
-                placeholder="hello@email.com"
+                placeholder="email@email.com"
                 id="email"
                 value={form.values.email}
                 onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}

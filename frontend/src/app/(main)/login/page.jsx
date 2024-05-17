@@ -77,7 +77,7 @@ const login = (props) => {
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form action="" onSubmit={form.onSubmit(loginSubmit)}>
-        <TextInput label="Email" placeholder="name@gmail.com" required
+        <TextInput label="Email" placeholder="email@gmail.com" required
         
         value={form.values.email}
         onChange={(event) => form.setFieldValue("email", event.currentTarget.value)}
