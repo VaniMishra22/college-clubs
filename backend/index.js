@@ -9,6 +9,12 @@ const { Server } = require("socket.io");
 const cors = require('cors');
 
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: ["http://localhost:5173"],
+  },
+});
 const port = 5000;
 //middleware
 
