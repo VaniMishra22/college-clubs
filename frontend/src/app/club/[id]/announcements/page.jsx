@@ -28,7 +28,21 @@ const mockdata = [
   },
 ];
 
-export function ArticlesCardsGrid() {
+export function Announcements() {
+
+
+  const form = useForm({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+
+    validate: {
+      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
+      password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
+    },
+  });
+
   const cards = mockdata.map((article) => (
     <Card key={article.title} p="md" radius="md" component="a" href="#" className={classes.card}>
       <AspectRatio ratio={1920 / 1080}>
@@ -42,6 +56,10 @@ export function ArticlesCardsGrid() {
       </Text>
     </Card>
   ));
+
+  return (
+
+  )
 
 }
 export default Announcements;
