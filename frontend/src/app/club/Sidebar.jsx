@@ -1,30 +1,26 @@
 import { useState } from 'react';
-import { Group, Code } from '@mantine/core';
+import { Group, Code, Title } from '@mantine/core';
 import {
-    IconBellRinging,
-    IconFingerprint,
-    IconKey,
-    IconSettings,
-    Icon2fa,
-    IconDatabaseImport,
-    IconReceipt2,
-    IconSwitchHorizontal,
     IconLogout,
     IconMessages,
     IconCalendar,
+    IconSpeakerphone,
+    IconPencil,
 } from '@tabler/icons-react';
-import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './sidebar.module.css';
+import useClubContext from '@/context/ClubContext';
 
 const data = [
     { link: '', label: 'Chat', icon: IconMessages },
-    { link: '', label: 'Memebers', icon: IconReceipt2 },
+    { link: '', label: 'Announcements', icon: IconSpeakerphone },
     { link: '', label: 'Schedules', icon: IconCalendar },
-    { link: '', label: 'Edit Club', icon: IconKey },
+    { link: '', label: 'Edit Club', icon: IconPencil },
 ];
 
 export default function Sidebar() {
     const [active, setActive] = useState('Billing');
+
+    const { selClub } = useClubContext();
 
     const links = data.map((item) => (
         <a
@@ -46,20 +42,17 @@ export default function Sidebar() {
         <nav className={classes.navbar}>
             <div className={classes.navbarMain}>
                 <Group className={classes.header} justify="space-between">
-                    <MantineLogo size={28} inverted style={{ color: 'white' }} />
+                    <Title order={3} style={{color: 'white'}}>
+                        {selClub?.name}
+                    </Title>
                     <Code fw={700} className={classes.version}>
-                        v3.1.2
+                        {selClub?.members.length} members
                     </Code>
                 </Group>
                 {links}
             </div>
 
             <div className={classes.footer}>
-                <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
-                    <IconSwitchHorizontal className={classes.linkIcon} stroke={1.5} />
-                    <span>Change account</span>
-                </a>
-
                 <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
                     <IconLogout className={classes.linkIcon} stroke={1.5} />
                     <span>Logout</span>

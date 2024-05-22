@@ -2,12 +2,15 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Image, Avatar, Text, Group, Container, Box, Title, Grid } from '@mantine/core';
 import { useRouter } from 'next/navigation';
+import useClubContext from '@/context/ClubContext';
 
 const ManageClubs = () => {
 
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')));
 
     const [clubList, setClubList] = useState([]);
+
+    const { setSelClub, selClub } = useClubContext();
 
     const router = useRouter();
 
@@ -31,7 +34,10 @@ const ManageClubs = () => {
             }).catch((err) => {
                 console.log(err);
             });
+    }
 
+    const selectClub = (club) => {
+        router.push('/club/' + club._id + '/announcements')
     }
 
     useEffect(() => {
@@ -40,7 +46,7 @@ const ManageClubs = () => {
 
     const displayClubs = () => clubList.map((club) => (
         <Grid.Col span={{ base: 12, md: 6 }}>
-            <Card withBorder radius="md" p={0} onClick={e => router.push('/club/' + club._id + '/announcements')}>
+            <Card withBorder radius="md" p={0} onClick={e => selectClub(club)}>
                 <Group wrap="nowrap" gap={0}>
                     <Image
                         src={'http://localhost:5000/' + club.cover}
