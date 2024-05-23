@@ -1,6 +1,7 @@
 const express = require('express')
 const userRouter = require('./routers/userRouter');
 const clubRouter = require('./routers/clubRouter');
+const announcementRouter = require('./routers/announcementRouter');
 const utilRouter = require('./routers/utils');
 
 const { createServer } = require("http");
@@ -25,6 +26,7 @@ app.use(express.json());
 
 app.use('/user', userRouter);
 app.use('/club', clubRouter);
+app.use('/announcement', announcementRouter);
 
 app.use('/util', utilRouter);
 
