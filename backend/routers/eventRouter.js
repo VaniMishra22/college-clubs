@@ -38,19 +38,15 @@ router.post('/join', (req, res) => {
         });
 });
 
-//getbyid
-router.get('/getbyid', (req, res) => {
-    res.send('Response from user getbyid');
-});
-
-//delete
-router.get('/delete', (req, res) => {
-    res.send('Response from user delete');
-});
-
-//update
-router.get('/update', (req, res) => {
-    res.send('Response from user update');
+router.get('/getbyclub/:id', (req, res) => {
+    console.log(req.params.id);
+    Model.find({ club: req.params.id }).populate('club').populate('createdBy')
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 

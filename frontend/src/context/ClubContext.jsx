@@ -7,6 +7,7 @@ const ClubContext = createContext();
 export const ClubProvider = ({ children }) => {
 
     const { id } = useParams();
+    // console.log(id);
     const [selClub, setSelClub] = useState(null);
 
     const fetchClubDetails = () => {

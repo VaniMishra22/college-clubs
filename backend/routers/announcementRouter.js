@@ -41,7 +41,7 @@ router.post('/join', (req, res) => {
 // getbyclub
 router.get('/getbyclub/:id', (req, res) => {
     console.log(req.params.id);
-    Model.find({ club: req.params.id }).populate('club')
+    Model.find({ club: req.params.id }).populate('club').populate('createdBy')
         .then((result) => {
             res.status(200).json(result);
         }).catch((err) => {

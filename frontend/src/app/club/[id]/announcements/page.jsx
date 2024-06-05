@@ -96,6 +96,7 @@ export function Announcements() {
         console.log(response.status);
         if (response.status === 200) {
           enqueueSnackbar('User Registerd Successfully', { variant: 'success' });
+          fetchAnnouncements();
         } else {
           enqueueSnackbar('', { variant: 'error' });
         }
@@ -153,7 +154,7 @@ export function Announcements() {
           <TextInput label="Title" required
             {...announcementForm.getInputProps('title')}
           />
-          <Textarea rows={5} label="Password" placeholder="Your password" required mt="md"
+          <Textarea rows={5} label="Announcement Description" placeholder="enter description" required mt="md"
             {...announcementForm.getInputProps('description')}
           />
           <Button type='submit' fullWidth mt="xl">
