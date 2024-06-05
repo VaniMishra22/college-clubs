@@ -102,7 +102,7 @@ const login = (props) => {
               </Anchor></a>
             </Group>
             <Button type='submit' fullWidth mt="xl">
-              Sign in
+              Login
             </Button>
           </form>
         </Paper>
