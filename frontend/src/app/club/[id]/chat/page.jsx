@@ -24,7 +24,7 @@ const ChatPage = ({ tutorData }) => {
 
     const socket = useMemo(() => io("http://localhost:5000"), []);
     const [currentUser, setCurrentUser] = useState(
-        JSON.parse(sessionStorage.getItem("user")) || JSON.parse(sessionStorage.getItem("tutor"))
+        JSON.parse(localStorage.getItem("user"))
     );
 
     const checkNewContact = (email) => {
@@ -162,7 +162,7 @@ const ChatPage = ({ tutorData }) => {
     //         }
     //     }
     // }, [studentMessageList])
-    
+
 
     return (
         <Paper h={'90vh'} >

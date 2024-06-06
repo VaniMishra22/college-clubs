@@ -5,6 +5,8 @@ const announcementRouter = require('./routers/announcementRouter');
 const eventRouter = require('./routers/eventRouter');
 const utilRouter = require('./routers/utils');
 
+const connectedUsers = {};
+
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
@@ -14,7 +16,7 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:3000"],
   },
 });
 const port = 5000;
@@ -61,4 +63,4 @@ io.on("connection", (socket) => {
 });
 
 //endpoint
-app.listen(port, () => { console.log('server started'); })
+httpServer.listen(port, () => { console.log('server started'); })
