@@ -12,6 +12,7 @@ export function Announcements() {
   const { selClub, fetchClubDetails } = useClubContext();
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [announcementList, setAnnouncementList] = useState([]);
+  //const [setSelDate, setSelDate] = useState(new Date());
 
   const { id } = useParams();
 
@@ -68,7 +69,7 @@ export function Announcements() {
       .then((response) => {
         console.log(response.status);
         if (response.status === 200) {
-          enqueueSnackbar('User Registerd Successfully', { variant: 'success' });
+          enqueueSnackbar('Annoucement Registerd Successfully', { variant: 'success' });
           fetchAnnouncements();
         } else {
           enqueueSnackbar('', { variant: 'error' });
@@ -111,10 +112,10 @@ export function Announcements() {
         <Table.Thead>
           <Table.Tr>
             <Table.Th />
-            <Table.Th>Element position</Table.Th>
-            <Table.Th>Element name</Table.Th>
-            <Table.Th>Symbol</Table.Th>
-            <Table.Th>Atomic mass</Table.Th>
+            <Table.Th>Announcement Title</Table.Th>
+            <Table.Th>Announcement Description</Table.Th>
+            <Table.Th>Scheduled By</Table.Th>
+            <Table.Th>Created By</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -130,6 +131,9 @@ export function Announcements() {
           <Textarea rows={5} label="Announcement Description" placeholder="enter description" required mt="md"
             {...announcementForm.getInputProps('description')}
           />
+
+          <DatePicker value={selDate} onChange={setSelDate} />
+
           <Button type='submit' fullWidth mt="xl">
             Make Announcement
           </Button>

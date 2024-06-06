@@ -64,7 +64,7 @@ const Events = () => {
       .then((response) => {
         console.log(response.status);
         if (response.status === 200) {
-          enqueueSnackbar('User Registerd Successfully', { variant: 'success' });
+          enqueueSnackbar('Event Registerd Successfully', { variant: 'success' });
           fetchEvents();
         } else {
           enqueueSnackbar('', { variant: 'error' });
