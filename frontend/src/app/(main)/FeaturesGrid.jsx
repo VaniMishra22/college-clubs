@@ -51,7 +51,7 @@ export function Feature({ icon: Icon, title, description }) {
   );
 }
 
-export function FeaturesGrid() {
+export default function FeaturesGrid() {
   const features = MOCKDATA.map((feature, index) => <Feature {...feature} key={index} />);
 
   return (

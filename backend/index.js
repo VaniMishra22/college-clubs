@@ -4,6 +4,7 @@ const clubRouter = require('./routers/clubRouter');
 const announcementRouter = require('./routers/announcementRouter');
 const eventRouter = require('./routers/eventRouter');
 const utilRouter = require('./routers/utils');
+const chatRouter = require('./routers/chatRouter');
 
 const connectedUsers = {};
 
@@ -31,6 +32,7 @@ app.use('/user', userRouter);
 app.use('/club', clubRouter);
 app.use('/announcement', announcementRouter);
 app.use('/event', eventRouter);
+app.use('/chat', chatRouter);
 
 app.use('/util', utilRouter);
 
@@ -49,11 +51,11 @@ io.on("connection", (socket) => {
     console.log(connectedUsers);
   })
 
-  socket.on("send-message", ({ senderData, message, date, rec_id }) => {
-    console.log({ senderData, message, date });
+  socket.on("send-message", ({ sender, message, club, date }) => {
+    console.log({ sender, message, date });
     // socket.broadcast.emit("rec-message", {senderData, message, date});
-    if (connectedUsers[rec_id]) {
-      io.to(connectedUsers[rec_id]).emit("rec-message", { senderData, message, date });
+    if (connectedUsers[club]) {
+      io.to(connectedUsers[club]).emit("rec-message", { sender, message, club, date, sent: false });
     }
   });
 

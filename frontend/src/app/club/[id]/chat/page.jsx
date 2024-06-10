@@ -80,7 +80,7 @@ const ChatPage = ({ tutorData }) => {
             message: messageRef.current.value,
             club: id,
             date: new Date(),
-            sender: currentUser._id,
+            sender: currentUser.name,
             sent: true
         }
         socket.emit("send-message", message);
@@ -156,7 +156,7 @@ const ChatPage = ({ tutorData }) => {
                     messageList.map((message, index) => (
                         <>
                             <div key={index} className={`message ${message.sent ? 'sent-msg' : 'rec-msg'}`} >
-                                <Text fw={'bold'} c={'dimmed'} size='sm'>{message.senderData.name}</Text>
+                                <Text fw={'bold'} c={'dimmed'} size='sm'>{message.sender}</Text>
                                 <p className='inner-text'>{message.message}</p>
                                 <Text c={'dimmed'} size='sm'>
                                     <ReactTimeAgo date={new Date(message.date)} locale="en-US" />

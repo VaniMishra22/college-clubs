@@ -87,15 +87,10 @@ const ManageClubs = () => {
 
     return (
         <Container size={'xl'}>
-
             <Title order={1} my={30} align="center">Joined Clubs</Title>
-
             <Grid>
                 {displayClubs()}
             </Grid>
-
-
-
         </Container>
     )
 }
