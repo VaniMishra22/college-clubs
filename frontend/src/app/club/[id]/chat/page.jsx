@@ -4,22 +4,19 @@ import { IconArrowRight, IconSearch } from '@tabler/icons-react';
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { io } from "socket.io-client";
 import ReactTimeAgo from 'react-time-ago'
+import { useParams } from 'next/navigation';
 
 const ChatPage = ({ tutorData }) => {
     const hasConnected = useRef(false);
 
     const messageRef = useRef(null);
-
-    const [messageList, setMessageList] = useState([]);
+    const { id } = useParams();
 
     const [contactList, setContactList] = useState([]);
     const [selContact, setSelContact] = useState(null);
 
-    const [tutorMessageList, setTutorMessageList] = useState(
-        JSON.parse(localStorage.getItem('tutor-messages')) || {}
-    );
-    const [studentMessageList, setStudentMessageList] = useState(
-        JSON.parse(localStorage.getItem('student-messages')) || {}
+    const [messageList, setMessageList] = useState(
+        JSON.parse(localStorage.getItem('club-messages')) || []
     );
 
     const socket = useMemo(() => io("http://localhost:5000"), []);
@@ -32,27 +29,12 @@ const ChatPage = ({ tutorData }) => {
         return contactList.find(contact => contact.email === email)
     }
 
-
     useEffect(() => {
         if (!hasConnected.current) {
             socket.emit("connect-user", currentUser._id);
             hasConnected.current = true;
         }
     }, [])
-
-    useEffect(() => {
-        if (currentUser.role === 'tutor') {
-            const contacts = localStorage.getItem('tutor-contacts');
-            if (contacts) {
-                setContactList(JSON.parse(contacts))
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        if (contactList.length)
-            localStorage.setItem('tutor-contacts', JSON.stringify(contactList));
-    }, [contactList])
 
 
     socket.on("rec-message", ({ senderData, message, date }) => {
@@ -61,55 +43,48 @@ const ChatPage = ({ tutorData }) => {
             setContactList([...contactList, senderData])
         }
         setSelContact(senderData);
-        // setMessageList([...messageList, { senderData, message, sent: false, date }]);
-        if (currentUser.role === 'tutor') {
-            setTutorMessageList({
-                ...tutorMessageList,
-                [senderData.email]: [...(tutorMessageList[senderData.email] || []), { senderData, message, sent: false, date }]
-            })
-        }
-        else {
-            setStudentMessageList({
-                ...studentMessageList,
-                [tutorData.email]: [...(studentMessageList[tutorData.email] || []), { senderData, message, sent: false, date }]
-            })
-        }
+        setMessageList({
+            ...messageList,
+            [senderData.email]: [...(messageList[senderData.email] || []), { senderData, message, sent: false, date }]
+        })
 
     })
+
+    const fetchMessages = () => {
+        fetch("http://localhost:5000/chat/getbyclub/" + id, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => {
+                console.log(response.status);
+                if (response.status === 200) {
+                    response.json().then((data) => {
+                        console.log(data);
+                        setMessageList(data);
+                    });
+                } else {
+                    console.log("Something went wrong");
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
 
     const sendMessage = () => {
         console.log(tutorData);
         if (!messageRef.current.value) return;
-        let rec_id = '';
-        if (currentUser.role === 'tutor') {
-            rec_id = selContact._id;
-        } else if (tutorData) {
-            rec_id = tutorData._id;
-        } else {
-            return alert('Please select a contact to send message');
-        }
-        // if(!(selContact || tutorData)) return alert('Please select a contact to send message');
-        // if(!checkNewContact(selContact.email)){
-        //     setContactList([...contactList, selContact])
-        // }
-        socket.emit("send-message", {
+
+        const message = {
             message: messageRef.current.value,
-            senderData: currentUser,
+            club: id,
             date: new Date(),
-            rec_id: rec_id
-        });
-        // setMessageList([...messageList, { senderData: currentUser, message: messageRef.current.value, sent: true, date: new Date() }]);
-        if (currentUser.role === 'tutor') {
-            setTutorMessageList({
-                ...tutorMessageList,
-                [selContact.email]: [...(tutorMessageList[selContact.email] || []), { senderData: currentUser, message: messageRef.current.value, sent: true, date: new Date() }]
-            })
-        } else {
-            setStudentMessageList({
-                ...studentMessageList,
-                [tutorData.email]: [...(studentMessageList[tutorData.email] || []), { senderData: currentUser, message: messageRef.current.value, sent: true, date: new Date() }]
-            })
+            sender: currentUser._id,
+            sent: true
         }
+        socket.emit("send-message", message);
+        setMessageList([...messageList, message])
         messageRef.current.value = '';
     }
 
@@ -132,22 +107,27 @@ const ChatPage = ({ tutorData }) => {
         </Flex>
     }
 
-    const getMessageList = () => {
-        if (currentUser.role === 'tutor' && selContact) {
-            return tutorMessageList[selContact.email] || []
-        } else if (tutorData) {
-            return studentMessageList[tutorData.email] || []
-        } else {
-            return []
-        }
-    }
-
     useEffect(() => {
-        console.log('message changed');
-        // persist in localstorage
-        localStorage.setItem('tutor-messages', JSON.stringify(tutorMessageList));
-        localStorage.setItem('student-messages', JSON.stringify(studentMessageList));
-    }, [tutorMessageList || studentMessageList])
+        fetchMessages();
+    }, [])
+
+
+    // const getMessageList = () => {
+    //     if (currentUser.role === 'tutor' && selContact) {
+    //         return tutorMessageList[selContact.email] || []
+    //     } else if (tutorData) {
+    //         return studentMessageList[tutorData.email] || []
+    //     } else {
+    //         return []
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     console.log('message changed');
+    //     // persist in localstorage
+    //     localStorage.setItem('tutor-messages', JSON.stringify(tutorMessageList));
+    //     localStorage.setItem('student-messages', JSON.stringify(studentMessageList));
+    // }, [tutorMessageList || studentMessageList])
 
     // useEffect(() => {
     //     if (currentUser.role === 'tutor') {
@@ -173,7 +153,7 @@ const ChatPage = ({ tutorData }) => {
             }
             <Flex direction={'column'} justify={'end'} h={'83vh'} style={{ overflowY: 'scroll' }}>
                 {
-                    getMessageList().map((message, index) => (
+                    messageList.map((message, index) => (
                         <>
                             <div key={index} className={`message ${message.sent ? 'sent-msg' : 'rec-msg'}`} >
                                 <Text fw={'bold'} c={'dimmed'} size='sm'>{message.senderData.name}</Text>

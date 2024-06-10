@@ -6,13 +6,15 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import useClubContext from '@/context/ClubContext';
 import { enqueueSnackbar } from 'notistack';
+import { DatePicker } from '@mantine/dates';
+import '@mantine/dates/styles.css';
 
 export function Announcements() {
 
   const { selClub, fetchClubDetails } = useClubContext();
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [announcementList, setAnnouncementList] = useState([]);
-  //const [setSelDate, setSelDate] = useState(new Date());
+  const [selDate, setSelDate] = useState(new Date());
 
   const { id } = useParams();
 
@@ -84,7 +86,7 @@ export function Announcements() {
     return announcementList.map((announcement) => (
       <Table.Tr
         key={announcement._id}
-        // bg={selectedRows.includes(element.position) ? 'var(--mantine-color-blue-light)' : undefined}
+      // bg={selectedRows.includes(element.position) ? 'var(--mantine-color-blue-light)' : undefined}
       >
         <Table.Td>
           <Checkbox
