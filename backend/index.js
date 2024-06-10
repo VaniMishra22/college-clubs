@@ -47,16 +47,17 @@ io.on("connection", (socket) => {
 
 
   socket.on("connect-user", (id) => {
-    connectedUsers[id] = socket.id;
-    console.log(connectedUsers);
+    // connectedUsers[id] = socket.id;
+    socket.join(id);
+    console.log('connected to room '+id);
   })
 
   socket.on("send-message", ({ sender, message, club, date }) => {
-    console.log({ sender, message, date });
+    console.log('sending to room '+club);
     // socket.broadcast.emit("rec-message", {senderData, message, date});
-    if (connectedUsers[club]) {
-      io.to(connectedUsers[club]).emit("rec-message", { sender, message, club, date, sent: false });
-    }
+    socket.to(club).emit("rec-message", { sender, message, club, date, sent: false });
+    // if (connectedUsers[club]) {
+    // }
   });
 
   socket.on("disconnect", () => {

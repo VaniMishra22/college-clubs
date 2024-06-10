@@ -21,6 +21,7 @@ export default function Sidebar() {
     const [active, setActive] = useState('Billing');
 
     const { selClub } = useClubContext();
+    console.log(selClub);
 
     const links = data.map((item) => (
         <a

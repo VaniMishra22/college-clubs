@@ -5,12 +5,15 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { io } from "socket.io-client";
 import ReactTimeAgo from 'react-time-ago'
 import { useParams } from 'next/navigation';
+import useClubContext from '@/context/ClubContext';
 
 const ChatPage = ({ tutorData }) => {
     const hasConnected = useRef(false);
 
     const messageRef = useRef(null);
     const { id } = useParams();
+
+    const { selClub, fetchClubDetails } = useClubContext();
 
     const [contactList, setContactList] = useState([]);
     const [selContact, setSelContact] = useState(null);
@@ -31,22 +34,23 @@ const ChatPage = ({ tutorData }) => {
 
     useEffect(() => {
         if (!hasConnected.current) {
-            socket.emit("connect-user", currentUser._id);
+            socket.emit("connect-user", id);
             hasConnected.current = true;
         }
     }, [])
 
+    useEffect(() => {
+        fetchClubDetails();
+    }, [])
 
-    socket.on("rec-message", ({ senderData, message, date }) => {
-        console.log({ senderData, message, date });
-        if (!checkNewContact(senderData.email)) {
-            setContactList([...contactList, senderData])
-        }
-        setSelContact(senderData);
-        setMessageList({
-            ...messageList,
-            [senderData.email]: [...(messageList[senderData.email] || []), { senderData, message, sent: false, date }]
-        })
+
+
+    socket.on("rec-message", ({ sender, message, date }) => {
+        console.log({ sender, message, date });
+        setMessageList([
+            { sender, message, date, sent: false },
+            ...messageList
+        ])
 
     })
 
@@ -64,6 +68,26 @@ const ChatPage = ({ tutorData }) => {
                         console.log(data);
                         setMessageList(data);
                     });
+                } else {
+                    console.log("Something went wrong");
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const saveMessageToDB = (message) => {
+        fetch("http://localhost:5000/chat/add", {
+            method: "POST",
+            body: JSON.stringify(message),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => {
+                console.log(response.status);
+                if (response.status === 200) {
+                    console.log('message saved');
                 } else {
                     console.log("Something went wrong");
                 }
@@ -151,7 +175,7 @@ const ChatPage = ({ tutorData }) => {
                     displayContacts()
                 )
             }
-            <Flex direction={'column'} justify={'end'} h={'83vh'} style={{ overflowY: 'scroll' }}>
+            <Flex direction={'column'} justify={'end'} h={'83vh'} p={30} style={{ overflowY: 'scroll' }}>
                 {
                     messageList.map((message, index) => (
                         <>

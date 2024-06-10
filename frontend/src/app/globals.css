@@ -1,0 +1,24 @@
+.message{
+    color: white;
+    margin-bottom: 1rem;
+    max-width: 80%;
+    width: fit-content;
+}
+
+.sent-msg .inner-text{
+    background-color: #289654;
+    border-radius: 10px 10px 0 10px;
+}
+
+.sent-msg{
+    margin-left: auto;
+}
+
+.rec-msg .inner-text{
+    background-color: #3131ad;
+    border-radius: 10px 10px 10px 0;
+}
+
+.inner-text{
+    padding: 10px 20px;
+}
