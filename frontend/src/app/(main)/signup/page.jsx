@@ -49,7 +49,7 @@ const signUp = (props) => {
         if (response.status === 200) {
           enqueueSnackbar('User Registerd Successfully', { variant: 'success' });
         } else {
-          enqueueSnackbar('Something went wrong', { variant: 'error' });
+          enqueueSnackbar('This account already exist', { variant: 'error' });
         }
       }).catch((err) => {
         console.log(err);
