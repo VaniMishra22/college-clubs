@@ -135,9 +135,6 @@ export default function Navbar() {
               </HoverCard.Target>
 
             </HoverCard>
-            <a href="#" className={classes.link}>
-              Learn
-            </a>
             <a href="/clubs" className={classes.link}>
               Clubs
             </a>
@@ -184,9 +181,6 @@ export default function Navbar() {
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened}></Collapse>
-          <a href="#" className={classes.link}>
-            Learn
-          </a>
           <a href="/clubs" className={classes.link}>
             Clubs
           </a>

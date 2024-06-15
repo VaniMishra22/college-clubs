@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Group, Code, Title } from '@mantine/core';
 import {
     IconLogout,
@@ -9,34 +9,43 @@ import {
 } from '@tabler/icons-react';
 import classes from './sidebar.module.css';
 import useClubContext from '@/context/ClubContext';
+import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 
 const data = [
-    { link: '', label: 'Chat', icon: IconMessages },
-    { link: '', label: 'Announcements', icon: IconSpeakerphone },
-    { link: '', label: 'Schedules', icon: IconCalendar },
-    { link: '', label: 'Edit Club', icon: IconPencil },
+    { link: (id) => {return `/club/${id}/chat` }, label: 'Chat', icon: IconMessages },
+    { link: (id) => {return `/club/${id}/announcements` }, label: 'Announcements', icon: IconSpeakerphone },
+    { link: (id) => {return `/club/${id}/events` }, label: 'Schedules', icon: IconCalendar },
+    { link: (id) => {return `/club/${id}/edit-club` }, label: 'Edit Club', icon: IconPencil },
 ];
 
 export default function Sidebar() {
     const [active, setActive] = useState('Billing');
+    const {id} = useParams();
+    const { selClub, fetchClubDetails } = useClubContext();
+    console.log(id);
 
-    const { selClub } = useClubContext();
-    console.log(selClub);
+    // useEffect(() => {
+        // fetchClubDetails()
+    // }, [])
+    
+    const router = useRouter();
 
     const links = data.map((item) => (
-        <a
+        <Link
             className={classes.link}
             data-active={item.label === active || undefined}
-            href={item.link}
+            href={item.link(id)}
             key={item.label}
             onClick={(event) => {
                 event.preventDefault();
+                router.push(item.link(id))
                 setActive(item.label);
             }}
         >
             <item.icon className={classes.linkIcon} stroke={1.5} />
             <span>{item.label}</span>
-        </a>
+        </Link>
     ));
 
     return (
